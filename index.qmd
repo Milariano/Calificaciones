@@ -1,26 +1,51 @@
 ---
 title: "Analisis de datos de calificaciones"
 format: html
-editor: visual
+Author: "Camila Riaño"
 ---
+-----------------------------
 
-## Quarto
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
-
-## Running Code
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+#cARGA DE DATOS
 
 ```{r}
-1 + 1
+#|Label: carga-datos
+datos <- read.csv("StudentsPerformance.csv")
 ```
 
-You can add options to executable code like this
+#GRÁFICO DE DISPERSIÓN
 
 ```{r}
-#| echo: false
-2 * 2
+#|Label: Grafico-Dispersión
+
+plot(
+  x = datos$math.score,
+  y = datos$writing.score,
+  xlab ="Calificación de matemáticas",
+  ylab = "Calificación en escritura",
+  main = "Calificaciones en matematicas vs calificación en escritura",
+  pch = 19,
+  col = "orange"
+)
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+#GRÁFICO DE BARRAS
+
+```{r}
+#|label: Gráfico-Barras
+
+promedio_calificacion_x_sexo <-aggregate(
+  data = datos,
+  math.score ~ gender,
+  FUN = mean,
+  na.rm = TRUE
+)
+
+barplot(
+  height = promedio_calificacion_x_sexo$math.score,
+  names.arg = promedio_calificacion_x_sexo$gender,
+  xlab = "Sexo",
+  ylab = "Promedio en matématicas",
+  main = "Promedio en matemáticas por sexo"
+)
+```
+
